@@ -18,15 +18,17 @@ jobs:
     steps:
       - name: 'Checkout for CI 🛎️'
         uses: actions/checkout@v6
-      - name: 'Set up JDK 21 📦'
+      - name: 'Set up JDKs (21 runs Gradle, 25 compiles MC 26.1+) 📦'
         uses: actions/setup-java@v5
         with:
-          java-version: '21'
+          java-version: |
+            25
+            21
           distribution: 'temurin'
       - name: 'Build with Gradle 🏗️'
         uses: gradle/gradle-build-action@v3
         with:
-          arguments: build test publish
+          arguments: build test publish -Porg.gradle.java.installations.fromEnv=JAVA_HOME_25_X64,JAVA_HOME_21_X64
         env:
           SNAPSHOTS_MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           SNAPSHOTS_MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
@@ -57,11 +59,13 @@ jobs:
             paper-1.21.8
             paper-1.21.10
             paper-1.21.11
+            paper-26.1.2
             fabric-1.21.1
             fabric-1.21.4
             fabric-1.21.5
             fabric-1.21.8
           distro-groups: |
+            paper
             paper
             paper
             paper
@@ -79,6 +83,7 @@ jobs:
             Paper 1.21.8
             Paper 1.21.10
             Paper 1.21.11
+            Paper 26.1.2
             Fabric 1.21.1
             Fabric 1.21.4
             Fabric 1.21.5
@@ -90,6 +95,7 @@ jobs:
             target/HuskSync-Bukkit-${{ env.version_name }}+mc.1.21.8.jar
             target/HuskSync-Bukkit-${{ env.version_name }}+mc.1.21.10.jar
             target/HuskSync-Bukkit-${{ env.version_name }}+mc.1.21.11.jar
+            target/HuskSync-Bukkit-${{ env.version_name }}+mc.26.1.2.jar
             target/HuskSync-Fabric-${{ env.version_name }}+mc.1.21.1.jar
             target/HuskSync-Fabric-${{ env.version_name }}+mc.1.21.4.jar
             target/HuskSync-Fabric-${{ env.version_name }}+mc.1.21.5.jar

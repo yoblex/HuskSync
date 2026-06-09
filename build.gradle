@@ -133,7 +133,24 @@ subprojects {
 
     // Version-specific configuration
     if (['fabric', 'bukkit'].contains(project.parent?.name)) {
-        compileJava.options.release.set 21
+        // Newer Minecraft versions require a newer JDK to compile against (e.g. MC 26.1 needs Java 25).
+        // Targets that declare a 'java_version' property compile with a matching toolchain so Gradle can
+        // run on an older JDK; all other targets keep the historical Java 21 release behaviour.
+        def moduleJavaVersion = project.findProperty('java_version')
+        if (moduleJavaVersion != null) {
+            def jv = moduleJavaVersion.toString().toInteger()
+            java {
+                toolchain {
+                    languageVersion = JavaLanguageVersion.of(jv)
+                }
+            }
+            // Override the release level inherited from the allprojects block (17) so the
+            // compileClasspath requests a JVM-version-compatible variant of paper-api, which
+            // targets Java 25 on Minecraft 26.1+.
+            compileJava.options.release.set jv
+        } else {
+            compileJava.options.release.set 21
+        }
         version += "+mc.${project.name}"
 
         if (project.parent?.name?.equals('fabric')) {

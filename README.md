@@ -48,7 +48,8 @@ HuskSync supports the following [compatible versions](https://william278.net/doc
 
 |    Minecraft    | Latest HuskSync | Java Version | Platforms     | Support Status                |
 |:---------------:|:---------------:|:------------:|:--------------|:------------------------------|
-|     1.21.10     |    _latest_     |      21      | Paper         | ✅ **Active Release**          |
+|     26.1.2      |    _latest_     |      25      | Paper         | ✅ **Active Release**          |
+|     1.21.10     |    _latest_     |      21      | Paper         | ✅ **Supported**               |
 |    1.21.7/8     |    _latest_     |      21      | Paper, Fabric | ✅ **August 2026**             |
 |     1.21.6      |      3.8.5      |      21      | Paper         | 🗃️ Archived (July 2025)      |
 |     1.21.5      |    _latest_     |      21      | Paper         | ✅ **February 2026** (Non-LTS) |
@@ -77,7 +78,7 @@ Requires a [MySQL/MariaDB/Mongo/PostgreSQL database](https://william278.net/docs
 4. Start every server again and synchronization will begin.
 
 ## Development
-To build HuskSync, simply run the following in the root of the repository (building requires Java 21). Builds will be output in `/target`:
+To build HuskSync, simply run the following in the root of the repository. Gradle runs on Java 21, but the Minecraft 26.1+ targets compile against a Java 25 toolchain, so a JDK 25 must also be installed and discoverable by Gradle. Builds will be output in `/target`:
 
 ```bash
 ./gradlew clean build
